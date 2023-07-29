@@ -6,7 +6,7 @@
       <button class="relative cursor-pointer" @click="toggleActive">
         <div
           :class="{
-            'bg-gradient-to-br from-[#55DDFF] to-[#C058F3]': item.active,
+            'bg-gradient-to-br from-[#55DDFF] to-[#C058F3]': !item.active,
           }"
           class="w-[20px] h-[20px] border border-[#E3E4F1] rounded-full"
         ></div>
@@ -18,8 +18,8 @@
       </button>
       <p
         :class="{
-          'text-[#494C6B]': !item.active,
-          'text-[#D1D2DA]  line-through': item.active,
+          'text-[#494C6B]': item.active,
+          'text-[#D1D2DA]  line-through': !item.active,
         }"
         class="font-normal text-xs"
       >
