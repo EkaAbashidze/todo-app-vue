@@ -1,58 +1,89 @@
 <template>
   <div
-    class="h-full bg-mobile-light bg-no-repeat bg-contain bg-[#FAFAFA] flex flex-col items-center"
+    :class="{
+      'bg-[#FAFAFA] bg-mobile-light sm:bg-desktop-light': !isDarkMode,
+      'bg-[#171823] bg-mobile-dark sm:bg-desktop-dark': isDarkMode,
+    }"
+    class="h-screen bg-no-repeat bg-contain flex flex-col items-center"
   >
-    <div class="flex justify-between pt-12 px-6 w-full">
+    <div
+      class="flex justify-between pt-12 px-6 w-full sm:max-w-[540px] sm:px-0"
+    >
       <img
         src="../assets/icons/icon-todo.svg"
         alt=""
         class="max-w-[109px] max-h-[20px]"
       />
       <img
+        v-if="!isDarkMode"
         src="../assets/icons/icon-moon.svg"
         alt=""
-        class="max-w-[20px] max-h-[20px]"
+        class="max-w-[20px] max-h-[20px] cursor-pointer"
+        @click="toggleDarkMode"
+      />
+      <img
+        v-if="isDarkMode"
+        src="../assets/icons/icon-sun.svg"
+        alt=""
+        class="max-w-[20px] max-h-[20px] cursor-pointer"
+        @click="toggleDarkMode"
       />
     </div>
 
     <div class="mt-10 mx-6 relative">
       <div
+        :class="{ 'border-[#4D5067]': isDarkMode }"
         class="w-[20px] h-[20px] border border-[#E3E4F1] absolute top-[12px] left-5 rounded-full"
       ></div>
-      <img
-        src="../assets/icons/icon-check.svg"
-        alt=""
-        class="absolute top-[17px] left-[20px]"
-      />
+
       <input
         type="text"
         placeholder="Create a new todo..."
-        class="w-[327px] h-12 rounded-lg bg-white shadow-md px-14 text-xs"
+        :class="{
+          'bg-[#25273D] text-[#C8CBE7] placeholder:text-[#767992]': isDarkMode,
+        }"
+        class="w-[327px] sm:w-[540px] h-12 rounded-lg shadow-md px-14 text-xs bg-white focus:outline-none"
         v-model="newItem"
         @keyup.enter="addItem"
       />
     </div>
 
-    <div class="px-5 mt-4 bg-white rounded-lg shadow-md w-[327px]">
-      <todo-item
+    <div
+      :class="{ 'bg-[#25273D] text-[#C8CBE7]': isDarkMode }"
+      class="px-5 mt-4 bg-white rounded-lg shadow-md w-[327px] sm:w-[540px]"
+    >
+      <div
         v-for="(item, index) in filterList"
         :key="index"
-        :item="item"
-        :active="item.active"
-        @remove-item="removeItem(index)"
-        @toggle-active="toggleActive(index)"
-      ></todo-item>
+        @dragstart="handleDragStart(item, index)"
+        @dragover="handleDragOver(index)"
+        @dragend="handleDragEnd"
+      >
+        <todo-item
+          :item="item"
+          :active="item.active"
+          :dark="isDarkMode"
+          @remove-item="removeItem(index)"
+          @toggle-active="toggleActive(index)"
+          :class="{
+            dragging: draggingIndex === index,
+            'drag-over': dragOverIndex === index,
+          }"
+        ></todo-item>
+      </div>
 
       <div
+        :class="{ 'text-[#5B5E7E]': isDarkMode }"
         class="flex justify-between pt-4 pb-[22px] font-normal text-[#9495A5] text-xs"
       >
-        <p>{{ inactiveCount }} items left</p>
-        <p>{{ activeCount }} completed</p>
+        <p>{{ activeCount }} items left</p>
+        <p>{{ inactiveCount }} completed</p>
       </div>
     </div>
 
     <div
-      class="w-[327px] h-12 rounded-lg bg-white shadow-md mt-4 mx-6 flex justify-around items-center font-bold text-[#9495A5] text-sm px-[70px]"
+      :class="{ 'bg-[#25273D] text-[#5B5E7E]': isDarkMode }"
+      class="w-[327px] sm:w-[540px] h-12 rounded-lg bg-white shadow-md mt-4 mx-6 flex justify-around items-center font-bold text-[#9495A5] text-sm px-[70px]"
     >
       <button
         @click="modifyList('All')"
@@ -75,9 +106,13 @@
       >
         Completed
       </button>
+      <button class="hidden sm:block" @click="clearCompleted()">
+        Clear completed
+      </button>
     </div>
 
     <div
+      :class="{ 'text-[#5B5E7E]': isDarkMode }"
       class="mt-10 mb-10 flex justify-center font-normal text-[#9495A5] text-sm"
     >
       <p>Drag and drop to reorder list</p>
@@ -101,6 +136,9 @@ export default {
         { text: "Read for an hour", active: true },
       ],
       listType: "All",
+      draggingIndex: null,
+      dragOverIndex: null,
+      isDarkMode: false,
     };
   },
   computed: {
@@ -135,6 +173,37 @@ export default {
       this.listType = type;
       console.log(this.listType);
     },
+    handleDragStart(item, index) {
+      this.draggingIndex = index;
+    },
+    handleDragOver(index) {
+      this.dragOverIndex = index;
+    },
+    handleDragEnd() {
+      if (this.draggingIndex !== null && this.dragOverIndex !== null) {
+        const draggedItem = this.list.splice(this.draggingIndex, 1)[0];
+        this.list.splice(this.dragOverIndex, 0, draggedItem);
+      }
+      this.draggingIndex = null;
+      this.dragOverIndex = null;
+    },
+    toggleDarkMode() {
+      this.isDarkMode = !this.isDarkMode;
+    },
+    clearCompleted() {
+      this.list = this.list.filter((item) => item.active);
+    },
   },
 };
 </script>
+
+<style>
+.dragging {
+  opacity: 0.2;
+}
+
+.drag-over {
+  border-top: 1px dashed #3a7cfd;
+  border-bottom: 1px dashed #3a7cfd;
+}
+</style>
