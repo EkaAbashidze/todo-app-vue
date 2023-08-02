@@ -41,16 +41,20 @@
         placeholder="Create a new todo..."
         :class="{
           'bg-[#25273D] text-[#C8CBE7] placeholder:text-[#767992]': isDarkMode,
+          'bg-white': !isDarkMode,
         }"
-        class="w-[327px] sm:w-[540px] h-12 rounded-lg shadow-md px-14 text-xs bg-white focus:outline-none"
+        class="w-[327px] sm:w-[540px] h-12 rounded-lg shadow-md px-14 text-xs focus:outline-none"
         v-model="newItem"
         @keyup.enter="addItem"
       />
     </div>
 
     <div
-      :class="{ 'bg-[#25273D] text-[#C8CBE7]': isDarkMode }"
-      class="px-5 mt-4 bg-white rounded-lg shadow-md w-[327px] sm:w-[540px]"
+      :class="{
+        'bg-[#25273D] text-[#C8CBE7]': isDarkMode,
+        'bg-white': !isDarkMode,
+      }"
+      class="px-5 mt-4 rounded-lg shadow-md w-[327px] sm:w-[540px]"
     >
       <div
         v-for="(item, index) in filterList"
@@ -82,8 +86,11 @@
     </div>
 
     <div
-      :class="{ 'bg-[#25273D] text-[#5B5E7E]': isDarkMode }"
-      class="w-[327px] sm:w-[540px] h-12 rounded-lg bg-white shadow-md mt-4 mx-6 flex justify-around items-center font-bold text-[#9495A5] text-sm px-[70px]"
+      :class="{
+        'bg-[#25273D] text-[#5B5E7E]': isDarkMode,
+        'bg-white': !isDarkMode,
+      }"
+      class="w-[327px] sm:w-[540px] h-12 rounded-lg shadow-md mt-4 mx-6 flex justify-around items-center font-bold text-[#9495A5] text-sm px-[70px]"
     >
       <button
         @click="modifyList('All')"
