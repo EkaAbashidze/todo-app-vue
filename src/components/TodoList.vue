@@ -69,82 +69,11 @@ export default {
     TodoItem,
   },
   data() {
-    return {
-      newItem: "",
-      list: [
-        { text: "Jog around the park 5x", active: true },
-        { text: "10 minutes meditation", active: true },
-        { text: "Read for an hour", active: true },
-      ],
-      listType: "All",
-      draggingIndex: null,
-      dragOverIndex: null,
-      isDarkMode: false,
-    };
+    return {};
   },
-  computed: {
-    inactiveCount() {
-      return this.list.filter((item) => !item.active).length;
-    },
-    activeCount() {
-      return this.list.filter((item) => item.active).length;
-    },
-    filterList() {
-      if (this.listType === "Active") {
-        return this.list.filter((item) => item.active);
-      } else if (this.listType === "Completed") {
-        return this.list.filter((item) => !item.active);
-      } else {
-        return this.list;
-      }
-    },
-  },
-  methods: {
-    addItem() {
-      this.list.unshift({ text: this.newItem, active: true });
-      this.newItem = "";
-    },
-    removeItem(index) {
-      this.list.splice(index, 1);
-    },
-    toggleActive(index) {
-      this.list[index].active = !this.list[index].active;
-    },
-    modifyList(type) {
-      this.listType = type;
-      console.log(this.listType);
-    },
-    handleDragStart(item, index) {
-      this.draggingIndex = index;
-    },
-    handleDragOver(index) {
-      this.dragOverIndex = index;
-    },
-    handleDragEnd() {
-      if (this.draggingIndex !== null && this.dragOverIndex !== null) {
-        const draggedItem = this.list.splice(this.draggingIndex, 1)[0];
-        this.list.splice(this.dragOverIndex, 0, draggedItem);
-      }
-      this.draggingIndex = null;
-      this.dragOverIndex = null;
-    },
-    toggleDarkMode() {
-      this.isDarkMode = !this.isDarkMode;
-    },
-    clearCompleted() {
-      this.list = this.list.filter((item) => item.active);
-    },
-  },
+  computed: {},
+  methods: {},
 };
 </script>
 
-<style>
-.dragging {
-  opacity: 0.2;
-}
-
-.drag-over {
-  border-top: 1px dashed #3a7cfd;
-  border-bottom: 1px dashed #3a7cfd;
-}
-</style>
+<style></style>
