@@ -24,30 +24,5 @@
 </template>
 
 <script>
-export default {
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    dark: {
-      type: Boolean,
-      required: true,
-    },
-  },
-  methods: {
-    toggleActive() {
-      this.$emit("toggle-active", !this.item.active);
-    },
-    handleDragStart(event) {
-      this.$emit("dragstart", this.item, this.index);
-    },
-    handleDragOver(event) {
-      this.$emit("dragover", this.index);
-    },
-    handleDragEnd() {
-      this.$emit("dragend");
-    },
-  },
-};
+export default {};
 </script>
