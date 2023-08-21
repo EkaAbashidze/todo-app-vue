@@ -1,10 +1,6 @@
 <template>
   <div
-    :class="{
-      'bg-[#FAFAFA] bg-mobile-light sm:bg-desktop-light': !isDarkMode,
-      'bg-[#171823] bg-mobile-dark sm:bg-desktop-dark': isDarkMode,
-    }"
-    class="h-screen bg-no-repeat bg-contain flex flex-col items-center"
+    class="h-screen bg-no-repeat bg-contain flex flex-col items-center bg-[#FAFAFA] bg-mobile-light sm:bg-desktop-light"
   >
     <div
       class="flex justify-between pt-12 px-6 w-full sm:max-w-[540px] sm:px-0"
@@ -15,111 +11,49 @@
         class="max-w-[109px] max-h-[20px]"
       />
       <img
-        v-if="!isDarkMode"
         src="../assets/icons/icon-moon.svg"
         alt=""
         class="max-w-[20px] max-h-[20px] cursor-pointer"
-        @click="toggleDarkMode"
-      />
-      <img
-        v-if="isDarkMode"
-        src="../assets/icons/icon-sun.svg"
-        alt=""
-        class="max-w-[20px] max-h-[20px] cursor-pointer"
-        @click="toggleDarkMode"
       />
     </div>
 
     <div class="mt-10 mx-6 relative">
       <div
-        :class="{ 'border-[#4D5067]': isDarkMode }"
         class="w-[20px] h-[20px] border border-[#E3E4F1] absolute top-[12px] left-5 rounded-full"
       ></div>
 
       <input
         type="text"
         placeholder="Create a new todo..."
-        :class="{
-          'bg-[#25273D] text-[#C8CBE7] placeholder:text-[#767992]': isDarkMode,
-          'bg-white': !isDarkMode,
-        }"
-        class="w-[327px] sm:w-[540px] h-12 rounded-lg shadow-md px-14 text-xs focus:outline-none"
-        v-model="newItem"
-        @keyup.enter="addItem"
+        class="w-[327px] sm:w-[540px] h-12 rounded-lg shadow-md px-14 text-xs focus:outline-none bg-white"
       />
     </div>
 
-    <div
-      :class="{
-        'bg-[#25273D] text-[#C8CBE7]': isDarkMode,
-        'bg-white': !isDarkMode,
-      }"
-      class="px-5 mt-4 rounded-lg shadow-md w-[327px] sm:w-[540px]"
-    >
-      <div
-        v-for="(item, index) in filterList"
-        :key="index"
-        @dragstart="handleDragStart(item, index)"
-        @dragover="handleDragOver(index)"
-        @dragend="handleDragEnd"
-      >
-        <todo-item
-          :item="item"
-          :active="item.active"
-          :dark="isDarkMode"
-          @remove-item="removeItem(index)"
-          @toggle-active="toggleActive(index)"
-          :class="{
-            dragging: draggingIndex === index,
-            'drag-over': dragOverIndex === index,
-          }"
-        ></todo-item>
+    <div class="px-5 mt-4 rounded-lg shadow-md w-[327px] sm:w-[540px] bg-white">
+      <div>
+        <todo-item></todo-item>
       </div>
 
       <div
-        :class="{ 'text-[#5B5E7E]': isDarkMode }"
         class="flex justify-between pt-4 pb-[22px] font-normal text-[#9495A5] text-xs"
       >
-        <p>{{ activeCount }} items left</p>
-        <p>{{ inactiveCount }} completed</p>
+        <p>items left</p>
+        <p>completed</p>
       </div>
     </div>
 
     <div
-      :class="{
-        'bg-[#25273D] text-[#5B5E7E]': isDarkMode,
-        'bg-white': !isDarkMode,
-      }"
-      class="w-[327px] sm:w-[540px] h-12 rounded-lg shadow-md mt-4 mx-6 flex justify-around items-center font-bold text-[#9495A5] text-sm px-[70px]"
+      class="w-[327px] sm:w-[540px] h-12 rounded-lg shadow-md mt-4 mx-6 flex justify-around items-center font-bold text-[#9495A5] text-sm px-[70px] bg-white"
     >
-      <button
-        @click="modifyList('All')"
-        :class="{ 'text-[#3A7CFD]': listType === 'All' }"
-        class="cursor-pointer"
-      >
-        All
-      </button>
-      <button
-        @click="modifyList('Active')"
-        :class="{ 'text-[#3A7CFD]': listType === 'Active' }"
-        class="cursor-pointer"
-      >
-        Active
-      </button>
-      <button
-        @click="modifyList('Completed')"
-        :class="{ 'text-[#3A7CFD]': listType === 'Completed' }"
-        class="cursor-pointer"
-      >
-        Completed
-      </button>
+      <button class="cursor-pointer">All</button>
+      <button class="cursor-pointer">Active</button>
+      <button class="cursor-pointer">Completed</button>
       <button class="hidden sm:block" @click="clearCompleted()">
         Clear completed
       </button>
     </div>
 
     <div
-      :class="{ 'text-[#5B5E7E]': isDarkMode }"
       class="mt-10 mb-10 flex justify-center font-normal text-[#9495A5] text-sm"
     >
       <p>Drag and drop to reorder list</p>
