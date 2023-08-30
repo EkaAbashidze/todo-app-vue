@@ -1,8 +1,8 @@
 <template>
   <div
     :class="{
-      'bg-[#FAFAFA] bg-mobile-light sm:bg-desktop-light': !isDarkMode,
-      'bg-[#171823] bg-mobile-dark sm:bg-desktop-dark': isDarkMode,
+      'bg-[#FAFAFA] mobile-light sm:desktop-light': !isDarkMode,
+      'bg-[#171823] mobile-dark sm:desktop-dark': isDarkMode,
     }"
     class="h-screen bg-no-repeat bg-contain flex flex-col items-center"
   >
