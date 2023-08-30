@@ -1,6 +1,6 @@
 <template>
   <div
-    :zclass="{
+    :class="{
       'bg-[#FAFAFA] bg-mobile-light sm:bg-desktop-light': !isDarkMode,
       'bg-[#171823] bg-mobile-dark sm:bg-desktop-dark': isDarkMode,
     }"
