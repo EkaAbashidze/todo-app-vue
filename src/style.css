@@ -10,20 +10,15 @@
 
 @layer utilities {
   .mobile-light {
-    background-image: url("./src/assets/images/bg-mobile-light.jpg");
+    background-image: url("./assets/images/bg-mobile-light.jpg");
   }
   .mobile-dark {
-    background-image: url("./src/assets/images/bg-mobile-dark.jpg");
+    background-image: url("./assets/images/bg-mobile-dark.jpg");
   }
   .desktop-light {
-    background-image: url("./src/assets/images/bg-desktop-light.jpg");
+    background-image: url("./assets/images/bg-desktop-light.jpg");
   }
   .desktop-dark {
-    background-image: url("./src/assets/images/bg-desktop-dark.jpg");
+    background-image: url("./assets/images/bg-desktop-dark.jpg");
   }
-
-  /* "mobile-light": "url('./src/assets/images/bg-mobile-light.jpg')", */
-  /* "mobile-dark": "url('./src/assets/images/bg-mobile-dark.jpg')",
-    "desktop-light": "url('./src/assets/images/bg-desktop-light.jpg')",
-    "desktop-dark": "url('./src/assets/images/bg-desktop-dark.jpg')", */
 }
